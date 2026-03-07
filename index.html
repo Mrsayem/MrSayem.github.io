@@ -1,741 +1,594 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Arafat Hossain Sayem — ML Researcher</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    :root {
-      --bg:       #060b17;
-      --bg2:      #0c1222;
-      --bg3:      #101829;
-      --card:     #0f1a2e;
-      --border:   rgba(255,255,255,0.07);
-      --teal:     #00d4aa;
-      --gold:     #f0b429;
-      --red:      #ff5f5f;
-      --text:     #e8edf5;
-      --muted:    #7a8aa0;
-      --serif:    'DM Serif Display', serif;
-      --sans:     'Syne', sans-serif;
-      --mono:     'DM Mono', monospace;
+    [data-theme="dark"] {
+      --bg:         #0a0a0a;
+      --bg2:        #111111;
+      --card:       #141414;
+      --card-hover: #1a1a1a;
+      --border:     rgba(255,255,255,0.09);
+      --border-str: rgba(255,255,255,0.18);
+      --text:       #f0f0f0;
+      --text2:      #c0c0c0;
+      --muted:      #606060;
+      --accent:     #ffffff;
+      --acc-inv:    #0a0a0a;
+      --nav-bg:     rgba(10,10,10,0.92);
+      --tog-bg:     #1e1e1e;
+      --tag-bg:     rgba(255,255,255,0.05);
+      --tag-bd:     rgba(255,255,255,0.11);
+      --met-bg:     rgba(255,255,255,0.04);
+    }
+    [data-theme="light"] {
+      --bg:         #f8f8f6;
+      --bg2:        #efefed;
+      --card:       #ffffff;
+      --card-hover: #f5f5f3;
+      --border:     rgba(0,0,0,0.08);
+      --border-str: rgba(0,0,0,0.18);
+      --text:       #0d0d0d;
+      --text2:      #3a3a3a;
+      --muted:      #888888;
+      --accent:     #0d0d0d;
+      --acc-inv:    #f8f8f6;
+      --nav-bg:     rgba(248,248,246,0.94);
+      --tog-bg:     #e2e2e2;
+      --tag-bg:     rgba(0,0,0,0.04);
+      --tag-bd:     rgba(0,0,0,0.10);
+      --met-bg:     rgba(0,0,0,0.03);
     }
 
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior:smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      overflow-x: hidden;
-      line-height: 1.65;
+      background:var(--bg); color:var(--text);
+      font-family:'IBM Plex Sans',sans-serif;
+      line-height:1.7; overflow-x:hidden;
+      transition:background 0.4s, color 0.4s;
+    }
+    a { text-decoration:none; color:inherit; }
+
+    /* grain */
+    body::after {
+      content:''; position:fixed; inset:0;
+      pointer-events:none; z-index:999; opacity:0.022;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    /* ─── NOISE OVERLAY ─── */
-    body::before {
-      content:'';
-      position:fixed; inset:0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events:none; z-index:0; opacity:0.35;
-    }
-
-    /* ─── SCROLLBAR ─── */
-    ::-webkit-scrollbar { width:5px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius:3px; }
+    ::-webkit-scrollbar{width:3px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
 
     /* ─── NAV ─── */
     nav {
-      position: fixed; top:0; left:0; right:0; z-index:100;
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 1.1rem 4vw;
-      background: rgba(6,11,23,0.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      transition: all 0.3s;
+      position:fixed;top:0;left:0;right:0;z-index:200;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 5vw;height:62px;
+      background:var(--nav-bg);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+      transition:background 0.4s,border-color 0.4s;
     }
     .nav-logo {
-      font-family: var(--mono);
-      font-size: 0.9rem;
-      color: var(--teal);
-      letter-spacing: 0.05em;
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.8rem;color:var(--text);letter-spacing:0.05em;
     }
-    .nav-links {
-      display:flex; gap:2rem; list-style:none;
-    }
+    .nav-logo span{color:var(--muted)}
+    .nav-links{display:flex;gap:2rem;list-style:none}
     .nav-links a {
-      text-decoration:none;
-      font-size:0.82rem;
-      font-weight:600;
-      letter-spacing:0.1em;
-      text-transform:uppercase;
-      color: var(--muted);
-      transition: color 0.2s;
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.78rem;font-weight:500;
+      letter-spacing:0.07em;text-transform:uppercase;
+      color:var(--muted);transition:color 0.2s;
+      padding-bottom:1px;border-bottom:1px solid transparent;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--teal); }
-    .nav-cta {
-      font-family: var(--mono);
-      font-size:0.8rem;
-      padding:0.5rem 1.2rem;
-      border:1px solid var(--teal);
-      color: var(--teal);
-      border-radius:4px;
-      text-decoration:none;
-      transition: all 0.2s;
-    }
-    .nav-cta:hover { background:var(--teal); color:var(--bg); }
+    .nav-links a:hover,.nav-links a.active{color:var(--text);border-bottom-color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:0.9rem}
 
-    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
-    .hamburger span { width:24px; height:2px; background:var(--text); transition:all 0.3s; }
+    /* toggle */
+    .theme-btn {
+      display:flex;align-items:center;gap:0.55rem;
+      cursor:pointer;user-select:none;
+      background:var(--tog-bg);
+      border:1px solid var(--border-str);
+      border-radius:50px;padding:4px 8px 4px 10px;
+      transition:all 0.3s;
+    }
+    .theme-btn:hover{border-color:var(--muted)}
+    .tb-label {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.66rem;letter-spacing:0.1em;
+      text-transform:uppercase;color:var(--muted);
+    }
+    .tb-knob {
+      width:26px;height:14px;
+      background:var(--border-str);
+      border-radius:50px;position:relative;
+      transition:background 0.3s;
+    }
+    .tb-knob::after {
+      content:'';position:absolute;
+      width:8px;height:8px;border-radius:50%;
+      background:var(--text);top:3px;left:3px;
+      transition:transform 0.3s,background 0.3s;
+    }
+    [data-theme="light"] .tb-knob::after{transform:translateX(12px)}
+
+    .btn-nav {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;
+      padding:0.4rem 1rem;border:1px solid var(--border-str);
+      border-radius:2px;color:var(--text);background:transparent;
+      transition:all 0.2s;
+    }
+    .btn-nav:hover{background:var(--accent);color:var(--acc-inv);border-color:var(--accent)}
+
+    .hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:4px}
+    .hamburger span{width:20px;height:1.5px;background:var(--text);display:block;transition:all 0.3s}
+
+    .mob-menu {
+      display:none;flex-direction:column;
+      position:fixed;top:62px;left:0;right:0;
+      background:var(--nav-bg);backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+      padding:1.5rem 5vw;z-index:199;gap:1rem;
+    }
+    .mob-menu.open{display:flex}
+    .mob-menu a {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.76rem;color:var(--text2);
+      text-transform:uppercase;letter-spacing:0.07em;
+      padding:0.55rem 0;border-bottom:1px solid var(--border);
+    }
+
+    /* ─── COMMON ─── */
+    section{padding:7rem 5vw;position:relative;z-index:1}
+    .inner{max-width:1140px;margin:0 auto}
+    .sh{margin-bottom:3.8rem}
+    .eyebrow {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;letter-spacing:0.17em;
+      text-transform:uppercase;color:var(--muted);
+      margin-bottom:0.9rem;
+      display:flex;align-items:center;gap:0.7rem;
+    }
+    .eyebrow::before{content:'';width:24px;height:1px;background:var(--muted)}
+    .sec-title {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(2rem,3.4vw,2.9rem);
+      font-weight:700;letter-spacing:-0.02em;line-height:1.12;
+      margin-bottom:0.7rem;
+    }
+    .sec-sub {
+      font-family:'EB Garamond',serif;
+      font-size:1.1rem;color:var(--text2);
+      max-width:540px;line-height:1.72;
+    }
 
     /* ─── HERO ─── */
     #home {
-      min-height:100vh;
-      display:flex; align-items:center;
-      padding: 7rem 4vw 4rem;
-      position:relative;
-      overflow:hidden;
+      min-height:100vh;display:flex;align-items:center;
+      padding-top:5rem;background:var(--bg);
+      border-bottom:1px solid var(--border);
     }
     .hero-grid {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:4rem; align-items:center;
-      width:100%; max-width:1200px; margin:0 auto;
-      position:relative; z-index:1;
+      max-width:1140px;margin:0 auto;width:100%;
+      display:grid;grid-template-columns:1.15fr 0.85fr;
+      gap:5rem;align-items:center;
     }
-    .hero-tag {
-      font-family: var(--mono);
-      font-size:0.78rem;
-      color: var(--teal);
-      letter-spacing:0.15em;
-      text-transform:uppercase;
-      margin-bottom:1.2rem;
-      display:flex; align-items:center; gap:0.6rem;
+    .hero-eyebrow {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.72rem;letter-spacing:0.17em;
+      text-transform:uppercase;color:var(--muted);
+      margin-bottom:1.5rem;
+      display:flex;align-items:center;gap:0.7rem;
     }
-    .hero-tag::before {
-      content:''; width:30px; height:1px; background:var(--teal);
+    .hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--muted)}
+    .hero-name {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(3.2rem,5.5vw,5.5rem);
+      font-weight:700;letter-spacing:-0.028em;line-height:1.04;
     }
-    .hero h1 {
-      font-family: var(--serif);
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      line-height:1.1;
-      margin-bottom:1.2rem;
-      letter-spacing:-0.01em;
-    }
-    .hero h1 em {
-      font-style:italic;
-      color: var(--teal);
+    .hero-name-sub {
+      font-family:'Playfair Display',serif;
+      font-style:italic;font-weight:600;
+      color:var(--text2);
+      font-size:clamp(2.8rem,5vw,5rem);
     }
     .hero-desc {
-      font-size:1.05rem;
-      color: var(--muted);
-      max-width:500px;
-      margin-bottom:2rem;
-      line-height:1.75;
+      font-family:'EB Garamond',serif;
+      font-size:1.22rem;color:var(--text2);
+      line-height:1.7;margin-top:1.8rem;max-width:500px;
     }
-    .hero-badges {
-      display:flex; flex-wrap:wrap; gap:0.6rem;
-      margin-bottom:2.2rem;
-    }
-    .badge {
-      font-family: var(--mono);
-      font-size:0.72rem;
-      padding:0.3rem 0.8rem;
-      border-radius:2px;
-      letter-spacing:0.05em;
-    }
-    .badge-teal { background:rgba(0,212,170,0.12); color:var(--teal); border:1px solid rgba(0,212,170,0.3); }
-    .badge-gold { background:rgba(240,180,41,0.12); color:var(--gold); border:1px solid rgba(240,180,41,0.3); }
-    .badge-red  { background:rgba(255,95,95,0.12);  color:var(--red);  border:1px solid rgba(255,95,95,0.3);  }
-    .hero-actions {
-      display:flex; gap:1rem; flex-wrap:wrap;
-    }
-    .btn-primary {
-      padding:0.75rem 1.8rem;
-      background: var(--teal);
-      color: var(--bg);
-      border:none; border-radius:4px;
-      font-family: var(--sans);
-      font-weight:700; font-size:0.85rem;
-      letter-spacing:0.05em; text-transform:uppercase;
-      text-decoration:none;
-      cursor:pointer;
-      transition: all 0.2s;
-    }
-    .btn-primary:hover { background:#00f0c0; transform:translateY(-2px); }
-    .btn-outline {
-      padding:0.75rem 1.8rem;
-      background:transparent;
-      color:var(--text);
-      border:1px solid var(--border);
-      border-radius:4px;
-      font-family: var(--sans);
-      font-weight:600; font-size:0.85rem;
-      letter-spacing:0.05em; text-transform:uppercase;
-      text-decoration:none;
-      cursor:pointer;
-      transition: all 0.2s;
-    }
-    .btn-outline:hover { border-color:var(--teal); color:var(--teal); }
-
-    /* Hero right - stats card */
-    .hero-stats {
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:2.5rem;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-stats::before {
-      content:'';
-      position:absolute; top:0; left:0; right:0; height:3px;
-      background: linear-gradient(90deg, var(--teal), var(--gold));
-    }
-    .stat-row {
-      display:grid; grid-template-columns:1fr 1fr;
-      gap:1.5rem; margin-bottom:1.5rem;
-    }
-    .stat-item { text-align:center; }
-    .stat-num {
-      font-family: var(--serif);
-      font-size:2.8rem;
-      color:var(--teal);
-      line-height:1;
-      margin-bottom:0.3rem;
-    }
-    .stat-label {
-      font-size:0.78rem;
-      color: var(--muted);
-      font-family: var(--mono);
-      letter-spacing:0.05em;
-      text-transform:uppercase;
-    }
-    .status-pill {
-      display:flex; align-items:center; gap:0.6rem;
-      background:rgba(0,212,170,0.08);
-      border:1px solid rgba(0,212,170,0.2);
-      border-radius:50px;
-      padding:0.6rem 1rem;
-      font-size:0.8rem; font-family:var(--mono);
-      color:var(--teal);
-      margin-top:1rem;
-    }
-    .pulse {
-      width:8px; height:8px; border-radius:50%;
-      background:var(--teal);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100%{ opacity:1; transform:scale(1); }
-      50%{ opacity:0.5; transform:scale(1.3); }
-    }
-
-    /* ─── SECTION COMMONS ─── */
-    section { padding:6rem 4vw; position:relative; z-index:1; }
-    .section-inner { max-width:1200px; margin:0 auto; }
-    .section-label {
-      font-family: var(--mono);
-      font-size:0.75rem;
-      color:var(--teal);
-      letter-spacing:0.2em;
-      text-transform:uppercase;
-      margin-bottom:0.8rem;
-      display:flex; align-items:center; gap:0.6rem;
-    }
-    .section-label::after { content:''; flex:1; height:1px; background:var(--border); max-width:60px; }
-    .section-title {
-      font-family: var(--serif);
-      font-size:clamp(2rem,4vw,3rem);
-      margin-bottom:0.6rem;
-      line-height:1.15;
-    }
-    .section-sub {
-      color:var(--muted);
-      font-size:1rem;
-      margin-bottom:3.5rem;
-      max-width:600px;
-    }
-
-    /* ─── RESEARCH SECTION ─── */
-    #research { background: var(--bg2); }
-    .research-grid {
-      display:grid; gap:1.5rem;
-    }
-    .paper-card {
-      background: var(--card);
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:2rem 2.2rem;
-      position:relative;
-      overflow:hidden;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .paper-card:hover {
-      border-color: rgba(0,212,170,0.4);
-      transform: translateY(-3px);
-    }
-    .paper-card::before {
-      content:'';
-      position:absolute; left:0; top:0; bottom:0; width:3px;
-    }
-    .paper-card.wip::before { background: var(--gold); }
-    .paper-card.submitted::before { background: var(--teal); }
-    .paper-status {
-      font-family: var(--mono);
-      font-size:0.72rem;
-      letter-spacing:0.1em;
-      text-transform:uppercase;
-      padding:0.25rem 0.7rem;
-      border-radius:3px;
-      margin-bottom:1rem;
-      display:inline-block;
-    }
-    .status-submitted { background:rgba(0,212,170,0.12); color:var(--teal); border:1px solid rgba(0,212,170,0.25); }
-    .status-wip       { background:rgba(240,180,41,0.12); color:var(--gold); border:1px solid rgba(240,180,41,0.25); }
-    .paper-title {
-      font-family: var(--serif);
-      font-size:1.4rem;
-      margin-bottom:0.5rem;
-      line-height:1.3;
-    }
-    .paper-authors {
-      font-family: var(--mono);
-      font-size:0.8rem;
-      color:var(--muted);
-      margin-bottom:0.3rem;
-    }
-    .paper-venue {
-      font-size:0.85rem;
-      color:var(--gold);
-      margin-bottom:1rem;
-      font-weight:600;
-    }
-    .paper-abstract {
-      font-size:0.9rem;
-      color:#9dafc5;
-      line-height:1.7;
-      margin-bottom:1.2rem;
-    }
-    .paper-metrics {
-      display:flex; flex-wrap:wrap; gap:0.8rem; margin-bottom:1.2rem;
-    }
-    .metric-chip {
-      font-family: var(--mono);
-      font-size:0.75rem;
-      padding:0.25rem 0.7rem;
-      background:rgba(255,255,255,0.04);
-      border:1px solid var(--border);
-      border-radius:3px;
-      color: var(--text);
-    }
-    .metric-chip span { color:var(--teal); font-weight:500; }
-    .paper-link {
-      font-family: var(--mono);
-      font-size:0.8rem;
-      color:var(--teal);
-      text-decoration:none;
-      display:inline-flex; align-items:center; gap:0.4rem;
-      border-bottom:1px solid rgba(0,212,170,0.3);
-      padding-bottom:1px;
-      transition: all 0.2s;
-    }
-    .paper-link:hover { color:#fff; border-color:#fff; }
-
-    /* ─── EXPERIENCE SECTION ─── */
-    #experience { background: var(--bg); }
-    .exp-timeline { display:flex; flex-direction:column; gap:0; position:relative; }
-    .exp-timeline::before {
-      content:'';
-      position:absolute; left:10px; top:8px; bottom:0;
-      width:1px; background:var(--border);
-    }
-    .exp-item {
-      display:flex; gap:2rem;
-      padding-bottom:2.5rem;
-      position:relative;
-    }
-    .exp-dot {
-      width:21px; height:21px; min-width:21px;
-      border-radius:50%;
-      background:var(--bg);
-      border:2px solid var(--teal);
-      margin-top:4px;
-      position:relative; z-index:1;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .exp-dot-inner {
-      width:7px; height:7px; border-radius:50%;
-      background:var(--teal);
-    }
-    .exp-body { flex:1; }
-    .exp-header {
-      display:flex; align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap; gap:0.5rem;
-      margin-bottom:0.4rem;
-    }
-    .exp-role {
-      font-family:var(--serif);
-      font-size:1.25rem;
-      line-height:1.2;
-    }
-    .exp-date {
-      font-family:var(--mono);
-      font-size:0.76rem;
-      color:var(--muted);
-      white-space:nowrap;
-      padding-top:4px;
-    }
-    .exp-company {
-      font-size:0.85rem;
-      color:var(--teal);
-      font-weight:600;
-      margin-bottom:0.8rem;
-      letter-spacing:0.02em;
-    }
-    .exp-points {
-      list-style:none;
-      display:flex; flex-direction:column; gap:0.5rem;
-    }
-    .exp-points li {
-      font-size:0.9rem;
-      color:#9dafc5;
-      padding-left:1.2rem;
-      position:relative;
-    }
-    .exp-points li::before {
-      content:'▸';
-      position:absolute; left:0;
-      color:var(--teal); font-size:0.8rem;
-    }
-    .exp-tags {
-      display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem;
-    }
-    .exp-tag {
-      font-family:var(--mono);
-      font-size:0.7rem;
-      padding:0.2rem 0.55rem;
-      background:rgba(255,255,255,0.04);
-      border:1px solid var(--border);
-      border-radius:2px;
-      color:var(--muted);
-    }
-
-    /* ─── SKILLS SECTION ─── */
-    #skills { background:var(--bg2); }
-    .skills-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
-      gap:1.2rem;
-    }
-    .skill-block {
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:1.5rem;
-      transition:border-color 0.3s;
-    }
-    .skill-block:hover { border-color:rgba(0,212,170,0.3); }
-    .skill-category {
-      font-family:var(--mono);
-      font-size:0.72rem;
-      color:var(--teal);
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      margin-bottom:1rem;
-      display:flex; align-items:center; gap:0.5rem;
-    }
-    .skill-icon { font-size:1rem; }
-    .skill-items {
-      display:flex; flex-wrap:wrap; gap:0.45rem;
-    }
-    .skill-pill {
-      font-size:0.8rem;
-      padding:0.3rem 0.7rem;
-      background:rgba(255,255,255,0.05);
-      border:1px solid var(--border);
-      border-radius:3px;
-      color:var(--text);
+    .chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.8rem}
+    .chip {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.68rem;letter-spacing:0.06em;
+      padding:0.28rem 0.75rem;
+      border:1px solid var(--border-str);border-radius:2px;
+      color:var(--text2);background:var(--tag-bg);
       transition:all 0.2s;
     }
-    .skill-pill:hover { background:rgba(0,212,170,0.1); border-color:var(--teal); color:var(--teal); }
+    .chip:hover{color:var(--text);border-color:var(--text)}
+    .chip.em{color:var(--text);font-weight:500}
+    .hero-btns{display:flex;gap:0.9rem;margin-top:2.2rem;flex-wrap:wrap}
+    .btn-fill {
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.8rem;font-weight:600;
+      letter-spacing:0.07em;text-transform:uppercase;
+      padding:0.8rem 2rem;background:var(--accent);
+      color:var(--acc-inv);border:1px solid var(--accent);
+      border-radius:2px;cursor:pointer;transition:all 0.2s;
+    }
+    .btn-fill:hover{opacity:0.82;transform:translateY(-1px)}
+    .btn-ghost {
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.8rem;font-weight:500;
+      letter-spacing:0.07em;text-transform:uppercase;
+      padding:0.8rem 2rem;background:transparent;
+      color:var(--text);border:1px solid var(--border-str);
+      border-radius:2px;cursor:pointer;transition:all 0.2s;
+    }
+    .btn-ghost:hover{border-color:var(--text)}
+
+    /* hero card */
+    .hcard {
+      background:var(--card);border:1px solid var(--border);
+      border-radius:3px;padding:2.4rem 2rem;position:relative;
+    }
+    .hcard::before {
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--accent);
+    }
+    .stat-grid {
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:0;border:1px solid var(--border);
+      border-radius:2px;overflow:hidden;margin-bottom:1.6rem;
+    }
+    .stat-cell {
+      padding:1.3rem 1rem;text-align:center;
+      border-right:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+    }
+    .stat-cell:nth-child(2n){border-right:none}
+    .stat-cell:nth-child(3),.stat-cell:nth-child(4){border-bottom:none}
+    .sv {
+      font-family:'Playfair Display',serif;
+      font-size:2.3rem;font-weight:700;
+      letter-spacing:-0.02em;line-height:1;margin-bottom:0.3rem;
+    }
+    .sk {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.63rem;letter-spacing:0.1em;
+      text-transform:uppercase;color:var(--muted);
+    }
+    .open-pill {
+      display:flex;align-items:center;gap:0.65rem;
+      padding:0.85rem 1rem;
+      border:1px solid var(--border-str);border-radius:2px;
+      background:var(--tag-bg);
+    }
+    .odot {
+      width:7px;height:7px;border-radius:50%;
+      background:var(--text);animation:blink 2.5s infinite;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+    .opill-t {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;letter-spacing:0.07em;color:var(--text2);
+    }
+
+    /* ─── RESEARCH ─── */
+    #research{background:var(--bg2)}
+    .papers{display:flex;flex-direction:column;gap:2px}
+    .paper {
+      background:var(--card);border:1px solid var(--border);
+      padding:2.4rem 2.6rem;border-radius:2px;
+      transition:border-color 0.3s,transform 0.25s;
+      position:relative;
+    }
+    .paper::before {
+      content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+      background:var(--border-str);
+      transition:background 0.3s;
+    }
+    .paper:hover{border-color:var(--border-str);transform:translateX(4px)}
+    .paper:hover::before{background:var(--accent)}
+    .p-tags{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .ptag {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+      padding:0.22rem 0.65rem;border:1px solid var(--border-str);
+      border-radius:2px;color:var(--muted);background:var(--tag-bg);
+    }
+    .ptag.v{color:var(--text);background:var(--met-bg)}
+    .p-title {
+      font-family:'Playfair Display',serif;
+      font-size:1.3rem;font-weight:600;line-height:1.3;margin-bottom:0.5rem;
+    }
+    .p-authors {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.76rem;color:var(--muted);margin-bottom:0.25rem;
+    }
+    .p-venue {
+      font-family:'EB Garamond',serif;
+      font-size:0.98rem;color:var(--text2);font-style:italic;margin-bottom:1.2rem;
+    }
+    .p-abstract {
+      font-family:'EB Garamond',serif;
+      font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:1.3rem;
+    }
+    .p-metrics{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.3rem}
+    .pm {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;letter-spacing:0.04em;
+      padding:0.28rem 0.7rem;
+      background:var(--met-bg);border:1px solid var(--border);
+      border-radius:2px;color:var(--text2);
+    }
+    .pm strong{color:var(--text);font-weight:500}
+    .p-divider{width:100%;height:1px;background:var(--border);margin:1.2rem 0}
+    .tlink {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.74rem;letter-spacing:0.06em;text-transform:uppercase;
+      color:var(--text);display:inline-flex;align-items:center;gap:0.4rem;
+      border-bottom:1px solid var(--muted);padding-bottom:1px;
+      transition:all 0.2s;
+    }
+    .tlink:hover{color:var(--accent);border-color:var(--accent)}
+
+    /* ─── EXPERIENCE ─── */
+    #experience{background:var(--bg)}
+    .timeline{position:relative}
+    .timeline::before {
+      content:'';position:absolute;left:0;top:6px;bottom:0;
+      width:1px;background:var(--border);
+    }
+    .tli{padding-left:2rem;padding-bottom:3rem;position:relative}
+    .tli:last-child{padding-bottom:0}
+    .tldot {
+      position:absolute;left:-5px;top:5px;
+      width:11px;height:11px;border-radius:50%;
+      background:var(--bg);border:2px solid var(--border-str);z-index:1;
+    }
+    .tldot.active{background:var(--accent);border-color:var(--accent)}
+    .tl-h {
+      display:flex;justify-content:space-between;
+      align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.3rem;
+    }
+    .tl-role {
+      font-family:'Playfair Display',serif;
+      font-size:1.25rem;font-weight:600;
+    }
+    .tl-date {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;letter-spacing:0.08em;color:var(--muted);padding-top:3px;
+    }
+    .tl-co {
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.84rem;font-weight:600;color:var(--text);
+      letter-spacing:0.03em;margin-bottom:0.9rem;
+    }
+    .tl-co a{border-bottom:1px solid var(--border)}
+    .tl-co a:hover{border-color:var(--text)}
+    .tl-pts{list-style:none;display:flex;flex-direction:column;gap:0.55rem}
+    .tl-pts li {
+      font-family:'EB Garamond',serif;
+      font-size:1.05rem;color:var(--text2);
+      padding-left:1.3rem;position:relative;line-height:1.65;
+    }
+    .tl-pts li::before{content:'—';position:absolute;left:0;color:var(--muted);font-size:0.85rem}
+    .tags{display:flex;flex-wrap:wrap;gap:0.38rem;margin-top:1rem}
+    .tag {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.66rem;letter-spacing:0.05em;
+      padding:0.2rem 0.55rem;background:var(--tag-bg);
+      border:1px solid var(--tag-bd);border-radius:2px;color:var(--muted);
+    }
+
+    /* ─── SKILLS ─── */
+    #skills{background:var(--bg2)}
+    .sk-grid {
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:1px;border:1px solid var(--border);border-radius:2px;overflow:hidden;
+    }
+    .skb {
+      background:var(--card);padding:1.7rem;transition:background 0.2s;
+    }
+    .skb:hover{background:var(--card-hover)}
+    .sk-cat {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.68rem;letter-spacing:0.13em;
+      text-transform:uppercase;color:var(--muted);
+      margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;
+    }
+    .sk-pills{display:flex;flex-wrap:wrap;gap:0.38rem}
+    .sk-pill {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;padding:0.25rem 0.6rem;
+      background:var(--tag-bg);border:1px solid var(--tag-bd);
+      border-radius:2px;color:var(--text2);transition:all 0.2s;
+    }
+    .sk-pill:hover{color:var(--text);border-color:var(--border-str)}
 
     /* ─── COMPETITIVE ─── */
-    #competitive { background:var(--bg); }
-    .comp-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
-      gap:1.5rem;
+    #competitive{background:var(--bg)}
+    .comp-row {
+      display:grid;grid-template-columns:repeat(3,1fr);
+      gap:1px;border:1px solid var(--border);border-radius:2px;overflow:hidden;
     }
-    .comp-card {
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:2rem;
-      text-align:center;
-      transition:all 0.3s;
+    .cc {
+      background:var(--card);padding:2.5rem 1.8rem;
+      text-align:center;transition:background 0.2s;
     }
-    .comp-card:hover {
-      border-color:rgba(240,180,41,0.4);
-      transform:translateY(-3px);
+    .cc:hover{background:var(--card-hover)}
+    .cc-num {
+      font-family:'Playfair Display',serif;
+      font-size:3rem;font-weight:700;letter-spacing:-0.03em;line-height:1;margin-bottom:0.45rem;
     }
-    .comp-icon {
-      font-size:2.5rem;
-      margin-bottom:1rem;
+    .cc-ttl {
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.82rem;font-weight:600;
+      text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.6rem;
     }
-    .comp-num {
-      font-family:var(--serif);
-      font-size:3rem;
-      color:var(--gold);
-      line-height:1;
-      margin-bottom:0.3rem;
-    }
-    .comp-desc {
-      font-size:0.85rem;
-      color:var(--muted);
-      margin-bottom:1.2rem;
+    .cc-desc {
+      font-family:'EB Garamond',serif;
+      font-size:1rem;color:var(--text2);line-height:1.6;
     }
 
     /* ─── EDUCATION ─── */
-    #education { background:var(--bg2); }
+    #education{background:var(--bg2)}
     .edu-card {
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:10px;
-      padding:2.5rem;
-      position:relative; overflow:hidden;
+      background:var(--card);border:1px solid var(--border);
+      border-radius:2px;padding:3rem;position:relative;overflow:hidden;
     }
     .edu-card::before {
-      content:'';
-      position:absolute; top:0; left:0; right:0; height:3px;
-      background:linear-gradient(90deg, var(--teal), var(--gold));
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--accent);
     }
-    .edu-header {
-      display:flex; justify-content:space-between;
-      flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;
+    .edu-main {
+      display:flex;justify-content:space-between;
+      align-items:flex-start;flex-wrap:wrap;gap:2rem;margin-bottom:2rem;
     }
-    .edu-degree {
-      font-family:var(--serif);
-      font-size:1.6rem; margin-bottom:0.3rem;
+    .edu-deg {
+      font-family:'Playfair Display',serif;
+      font-size:1.65rem;font-weight:700;margin-bottom:0.4rem;
     }
     .edu-uni {
-      font-size:0.9rem; color:var(--teal); font-weight:600;
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.86rem;color:var(--text2);font-weight:500;
     }
-    .edu-meta {
-      text-align:right;
+    .edu-period {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;color:var(--muted);margin-top:0.2rem;
     }
-    .edu-gpa {
-      font-family:var(--mono);
-      font-size:2rem; color:var(--gold); line-height:1;
+    .edu-gpa-n {
+      font-family:'Playfair Display',serif;
+      font-size:3rem;font-weight:700;letter-spacing:-0.03em;line-height:1;
     }
-    .edu-gpa-label {
-      font-family:var(--mono);
-      font-size:0.7rem; color:var(--muted); text-transform:uppercase;
+    .edu-gpa-s {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.66rem;color:var(--muted);
+      text-transform:uppercase;letter-spacing:0.12em;
     }
-    .thesis-box {
-      background:rgba(0,212,170,0.05);
-      border:1px solid rgba(0,212,170,0.15);
-      border-radius:7px;
-      padding:1.2rem 1.5rem;
-      margin-top:1.2rem;
+    .thesis-blk {
+      border-top:1px solid var(--border);padding-top:1.7rem;
     }
-    .thesis-label {
-      font-family:var(--mono);
-      font-size:0.7rem; color:var(--teal);
-      text-transform:uppercase; letter-spacing:0.12em;
-      margin-bottom:0.4rem;
+    .thesis-lbl {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.66rem;letter-spacing:0.15em;
+      text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;
     }
-    .thesis-title {
-      font-size:0.95rem; color:var(--text);
-      line-height:1.5;
+    .thesis-t {
+      font-family:'EB Garamond',serif;
+      font-size:1.12rem;color:var(--text2);line-height:1.65;font-style:italic;
     }
 
     /* ─── CONTACT ─── */
-    #contact { background:var(--bg); }
-    .contact-grid {
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:4rem; align-items:center;
+    #contact{background:var(--bg)}
+    .cg{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+    .ch {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(1.8rem,3vw,2.7rem);
+      font-weight:700;line-height:1.15;margin-bottom:1rem;
     }
-    .contact-left h2 {
-      font-family:var(--serif);
-      font-size:clamp(1.8rem,3.5vw,2.8rem);
-      margin-bottom:1rem;
-      line-height:1.2;
+    .ch em{font-style:italic;color:var(--text2)}
+    .cbody {
+      font-family:'EB Garamond',serif;
+      font-size:1.1rem;color:var(--text2);line-height:1.75;margin-bottom:2.2rem;
     }
-    .contact-left p {
-      color:var(--muted);
-      font-size:0.95rem; line-height:1.75;
-      margin-bottom:2rem;
+    .c-links{display:flex;flex-direction:column;gap:0.7rem}
+    .clink {
+      display:flex;align-items:center;gap:1rem;
+      padding:0.95rem 1.1rem;background:var(--card);
+      border:1px solid var(--border);border-radius:2px;
+      text-decoration:none;color:inherit;transition:all 0.2s;
     }
-    .contact-links {
-      display:flex; flex-direction:column; gap:1rem;
+    .clink:hover{border-color:var(--border-str);transform:translateX(3px)}
+    .cico {
+      width:34px;height:34px;flex-shrink:0;
+      border:1px solid var(--border);border-radius:2px;
+      display:flex;align-items:center;justify-content:center;
+      font-family:'IBM Plex Mono',monospace;font-size:0.72rem;
+      color:var(--muted);background:var(--tag-bg);
     }
-    .contact-link {
-      display:flex; align-items:center; gap:1rem;
-      text-decoration:none;
-      padding:1rem 1.2rem;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:8px;
-      transition:all 0.2s;
+    .cinfo{flex:1}
+    .clbl {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.63rem;letter-spacing:0.12em;
+      text-transform:uppercase;color:var(--muted);
     }
-    .contact-link:hover {
-      border-color:var(--teal);
-      transform:translateX(4px);
+    .cval {
+      font-family:'IBM Plex Sans',sans-serif;
+      font-size:0.86rem;color:var(--text);margin-top:0.12rem;
     }
-    .contact-link-icon {
-      width:38px; height:38px;
-      background:rgba(0,212,170,0.1);
-      border-radius:6px;
-      display:flex; align-items:center; justify-content:center;
-      font-size:1.1rem; flex-shrink:0;
+    .carr{color:var(--muted);font-size:0.85rem}
+
+    .cform {
+      background:var(--card);border:1px solid var(--border);
+      border-radius:2px;padding:2.4rem;
     }
-    .contact-link-text { flex:1; }
-    .contact-link-label {
-      font-family:var(--mono);
-      font-size:0.7rem; color:var(--muted);
-      text-transform:uppercase; letter-spacing:0.1em;
+    .cform-t {
+      font-family:'Playfair Display',serif;
+      font-size:1.3rem;font-weight:600;margin-bottom:1.7rem;
     }
-    .contact-link-value {
-      font-size:0.9rem; color:var(--text);
-      margin-top:0.15rem;
-    }
-    .contact-link-arrow {
-      color:var(--teal); font-size:1.1rem;
-    }
-    .contact-right {
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:2.5rem;
-    }
-    .contact-right h3 {
-      font-family:var(--serif);
-      font-size:1.4rem; margin-bottom:1.5rem;
-    }
-    .field {
-      margin-bottom:1.2rem;
-    }
+    .field{margin-bottom:1rem}
     .field label {
-      display:block;
-      font-family:var(--mono);
-      font-size:0.72rem; color:var(--muted);
-      text-transform:uppercase; letter-spacing:0.1em;
-      margin-bottom:0.4rem;
+      display:block;font-family:'IBM Plex Mono',monospace;
+      font-size:0.65rem;letter-spacing:0.12em;
+      text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;
     }
-    .field input, .field textarea {
-      width:100%;
-      background:rgba(255,255,255,0.04);
-      border:1px solid var(--border);
-      border-radius:5px;
-      padding:0.75rem 1rem;
-      color:var(--text);
-      font-family:var(--sans);
-      font-size:0.9rem;
-      outline:none;
-      transition:border-color 0.2s;
-      resize:none;
+    .field input,.field textarea {
+      width:100%;background:var(--bg);
+      border:1px solid var(--border);border-radius:2px;
+      padding:0.72rem 0.9rem;color:var(--text);
+      font-family:'IBM Plex Sans',sans-serif;font-size:0.86rem;
+      outline:none;transition:border-color 0.2s;resize:none;
     }
-    .field input:focus, .field textarea:focus {
-      border-color:var(--teal);
-    }
-    .field textarea { height:100px; }
+    .field input:focus,.field textarea:focus{border-color:var(--border-str)}
+    .field textarea{height:90px}
 
     /* ─── FOOTER ─── */
     footer {
-      background:var(--bg2);
-      border-top:1px solid var(--border);
-      padding:2rem 4vw;
-      display:flex; align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap; gap:1rem;
-      position:relative; z-index:1;
+      background:var(--bg2);border-top:1px solid var(--border);
+      padding:1.8rem 5vw;display:flex;align-items:center;
+      justify-content:space-between;flex-wrap:wrap;gap:1rem;
+      position:relative;z-index:1;
     }
-    .footer-name {
-      font-family:var(--mono); font-size:0.82rem;
-      color:var(--teal);
+    .f-logo {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.76rem;color:var(--text);letter-spacing:0.05em;
     }
-    .footer-copy {
-      font-family:var(--mono); font-size:0.75rem;
-      color:var(--muted);
-    }
-
-    /* ─── HERO BG GLOW ─── */
-    .glow-blob {
-      position:absolute;
-      border-radius:50%;
-      filter:blur(100px);
-      pointer-events:none;
-    }
-    .glow-1 {
-      width:500px; height:500px;
-      background:rgba(0,212,170,0.07);
-      top:-100px; right:-100px;
-    }
-    .glow-2 {
-      width:400px; height:400px;
-      background:rgba(240,180,41,0.05);
-      bottom:-50px; left:10%;
-    }
-
-    /* ─── DIVIDER LINE ─── */
-    .divider {
-      width:100%; height:1px;
-      background:var(--border);
-      margin:0;
+    .f-copy {
+      font-family:'IBM Plex Mono',monospace;
+      font-size:0.7rem;color:var(--muted);
     }
 
     /* ─── ANIMATIONS ─── */
-    .fade-up {
-      opacity:0;
-      transform:translateY(30px);
-      transition:opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-up.visible {
-      opacity:1;
-      transform:translateY(0);
-    }
-
-    /* ─── MOBILE NAV ─── */
-    .mobile-menu {
-      display:none;
-      flex-direction:column;
-      position:fixed; top:65px; left:0; right:0;
-      background:rgba(6,11,23,0.97);
-      backdrop-filter:blur(14px);
-      border-bottom:1px solid var(--border);
-      padding:1.5rem 4vw;
-      z-index:99; gap:1.2rem;
-    }
-    .mobile-menu.open { display:flex; }
-    .mobile-menu a {
-      color:var(--text); text-decoration:none;
-      font-size:1rem; font-weight:600;
-      letter-spacing:0.05em;
-      padding:0.5rem 0;
-      border-bottom:1px solid var(--border);
-    }
-    .mobile-menu a:hover { color:var(--teal); }
+    .fi{opacity:0;transform:translateY(20px);transition:opacity 0.65s ease,transform 0.65s ease}
+    .fi.show{opacity:1;transform:translateY(0)}
 
     /* ─── RESPONSIVE ─── */
-    @media(max-width:900px){
-      .nav-links, .nav-cta { display:none; }
-      .hamburger { display:flex; }
-      .hero-grid { grid-template-columns:1fr; }
-      .hero-stats { display:none; }
-      .contact-grid { grid-template-columns:1fr; }
+    @media(max-width:960px){
+      .nav-links,.btn-nav{display:none}
+      .hamburger{display:flex}
+      .hero-grid{grid-template-columns:1fr}
+      .hcard{display:none}
+      .cg{grid-template-columns:1fr;gap:3rem}
+      .comp-row{grid-template-columns:1fr}
     }
     @media(max-width:600px){
-      section { padding:4rem 5vw; }
-      .exp-item { gap:1rem; }
-      .edu-header { flex-direction:column; }
-      .edu-meta { text-align:left; }
-      .stat-row { grid-template-columns:1fr 1fr; }
+      section{padding:5rem 5vw}
+      .paper{padding:1.6rem}
+      .edu-card{padding:1.8rem}
+      .edu-main{flex-direction:column}
+      .cform{padding:1.6rem}
     }
   </style>
 </head>
@@ -743,7 +596,7 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <div class="nav-logo">arafat@research:~$</div>
+  <div class="nav-logo"><span>→ </span>A.H. Sayem</div>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
     <li><a href="#research">Research</a></li>
@@ -752,373 +605,319 @@
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="https://drive.google.com/drive/u/0/folders/1i8JNld2HDHLhE_91DTwWjjV42HeJtfdg" class="nav-cta" target="_blank">CV ↗</a>
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
+  <div class="nav-right">
+    <div class="theme-btn" id="themeBtn">
+      <span class="tb-label" id="themeLabel">Dark</span>
+      <div class="tb-knob"></div>
+    </div>
+    <a href="https://drive.google.com/drive/u/0/folders/1i8JNld2HDHLhE_91DTwWjjV42HeJtfdg" target="_blank" class="btn-nav">CV ↗</a>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
   </div>
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#home" onclick="closeMobile()">Home</a>
-  <a href="#research" onclick="closeMobile()">Research</a>
-  <a href="#experience" onclick="closeMobile()">Experience</a>
-  <a href="#skills" onclick="closeMobile()">Skills</a>
-  <a href="#education" onclick="closeMobile()">Education</a>
-  <a href="#contact" onclick="closeMobile()">Contact</a>
+<div class="mob-menu" id="mobMenu">
+  <a href="#home" onclick="cm()">Home</a>
+  <a href="#research" onclick="cm()">Research</a>
+  <a href="#experience" onclick="cm()">Experience</a>
+  <a href="#skills" onclick="cm()">Skills</a>
+  <a href="#education" onclick="cm()">Education</a>
+  <a href="#contact" onclick="cm()">Contact</a>
 </div>
 
 <!-- HERO -->
 <section id="home">
-  <div class="glow-blob glow-1"></div>
-  <div class="glow-blob glow-2"></div>
   <div class="hero-grid">
-    <div class="hero fade-up">
-      <div class="hero-tag">ML Researcher · Software Engineer</div>
-      <h1>Arafat Hossain<br><em>Sayem</em></h1>
-      <p class="hero-desc">
-        Deep learning researcher focused on medical image analysis — segmentation of breast ultrasound lesions and fetal brain ventricles. Seeking a <strong style="color:var(--text)">PhD position</strong> in Biomedical AI.
-      </p>
-      <div class="hero-badges">
-        <span class="badge badge-teal">Medical Imaging</span>
-        <span class="badge badge-teal">Semantic Segmentation</span>
-        <span class="badge badge-gold">IEEE JBHI (in prep)</span>
-        <span class="badge badge-red">ICPC 2022</span>
+    <div>
+      <div class="hero-eyebrow fi">ML Researcher &amp; Software Engineer · Dhaka, Bangladesh</div>
+      <div class="hero-name fi" style="transition-delay:.08s">
+        Arafat<br>Hossain
+        <div class="hero-name-sub">Sayem</div>
       </div>
-      <div class="hero-actions">
-        <a href="#research" class="btn-primary">View Research</a>
-        <a href="https://drive.google.com/drive/u/0/folders/1i8JNld2HDHLhE_91DTwWjjV42HeJtfdg" target="_blank" class="btn-outline">Download CV</a>
+      <p class="hero-desc fi" style="transition-delay:.15s">
+        Deep learning researcher specialising in medical image segmentation — breast ultrasound lesion analysis and fetal brain ventricle delineation. Seeking a <strong>PhD position</strong> in Biomedical AI.
+      </p>
+      <div class="chips fi" style="transition-delay:.21s">
+        <span class="chip em">Medical Imaging</span>
+        <span class="chip em">Semantic Segmentation</span>
+        <span class="chip">IEEE JBHI (in prep)</span>
+        <span class="chip">PyTorch · ResNet · MobileNet</span>
+        <span class="chip">ICPC 2022</span>
+        <span class="chip">500+ Problems Solved</span>
+      </div>
+      <div class="hero-btns fi" style="transition-delay:.28s">
+        <a href="#research" class="btn-fill">View Research</a>
+        <a href="https://drive.google.com/drive/u/0/folders/1i8JNld2HDHLhE_91DTwWjjV42HeJtfdg" target="_blank" class="btn-ghost">Download CV</a>
       </div>
     </div>
-    <div class="hero-stats fade-up" style="transition-delay:0.2s">
-      <div class="stat-row">
-        <div class="stat-item">
-          <div class="stat-num">2</div>
-          <div class="stat-label">Papers</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">0.892</div>
-          <div class="stat-label">Best Dice</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">500+</div>
-          <div class="stat-label">Problems Solved</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">3.54</div>
-          <div class="stat-label">CGPA / 4.0</div>
-        </div>
+    <div class="hcard fi" style="transition-delay:.2s">
+      <div class="stat-grid">
+        <div class="stat-cell"><div class="sv">2</div><div class="sk">Papers</div></div>
+        <div class="stat-cell"><div class="sv">0.892</div><div class="sk">Best Dice</div></div>
+        <div class="stat-cell"><div class="sv">500+</div><div class="sk">Problems</div></div>
+        <div class="stat-cell"><div class="sv">3.54</div><div class="sk">CGPA / 4.0</div></div>
       </div>
-      <div class="status-pill">
-        <div class="pulse"></div>
-        Open to PhD / Research positions
+      <div class="open-pill">
+        <div class="odot"></div>
+        <div class="opill-t">Open to PhD &amp; Research Positions</div>
       </div>
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
 
 <!-- RESEARCH -->
 <section id="research">
-  <div class="section-inner">
-    <div class="section-label fade-up">Publications & Research</div>
-    <h2 class="section-title fade-up">Research Work</h2>
-    <p class="section-sub fade-up">Focus: deep learning for medical image segmentation — clinically impactful, lightweight, production-ready architectures.</p>
-
-    <div class="research-grid">
-      <!-- Paper 1 -->
-      <div class="paper-card submitted fade-up">
-        <span class="paper-status status-submitted">Manuscript in Preparation · 2026</span>
-        <div class="paper-title">Hybrid ResNet-50 Architecture for Multi-Dataset Breast Ultrasound Lesion Segmentation</div>
-        <div class="paper-authors">Arafat Hossain Sayem, Tania Afroz Toma</div>
-        <div class="paper-venue">Target: IEEE Journal of Biomedical and Health Informatics (JBHI)</div>
-        <p class="paper-abstract">
-          Proposes a ResNet-50 encoder enhanced with ASPP multi-scale bridge, a malignant-aware Balanced CBAM attention mechanism, and anisotropic row-column decoder convolutions. Trained on a combined BUSI + BUS-UCLM cohort (1,133 images), achieving strong cross-dataset generalization to unseen UDIAT data — demonstrating true clinical transferability.
-        </p>
-        <div class="paper-metrics">
-          <div class="metric-chip">Dice BUS-UCLM <span>0.892</span></div>
-          <div class="metric-chip">Dice BUSI <span>0.872</span></div>
-          <div class="metric-chip">Cross-dataset (UDIAT) <span>0.805</span></div>
-          <div class="metric-chip">Training set <span>1,133 imgs</span></div>
+  <div class="inner">
+    <div class="sh">
+      <div class="eyebrow fi">Publications &amp; Research</div>
+      <h2 class="sec-title fi" style="transition-delay:.06s">Research Work</h2>
+      <p class="sec-sub fi" style="transition-delay:.1s">Focus: clinically impactful deep learning architectures for medical image analysis.</p>
+    </div>
+    <div class="papers">
+      <div class="paper fi">
+        <div class="p-tags">
+          <span class="ptag">Manuscript in Preparation · 2026</span>
+          <span class="ptag v">IEEE JBHI</span>
         </div>
-        <a href="https://github.com/Mrsayem/Multidataset-breast-ultrasound-image-segmentation" target="_blank" class="paper-link">
-          ⌥ GitHub Repository →
-        </a>
+        <div class="p-title">Hybrid ResNet-50 Architecture for Multi-Dataset Breast Ultrasound Lesion Segmentation</div>
+        <div class="p-authors">Arafat Hossain Sayem, Tania Afroz Toma</div>
+        <div class="p-venue">IEEE Journal of Biomedical and Health Informatics (JBHI)</div>
+        <p class="p-abstract">Proposes a ResNet-50 encoder with ASPP multi-scale bridge, a malignant-aware Balanced CBAM attention module, and anisotropic row-column decoder convolutions. Trained jointly on BUSI and BUS-UCLM (1,133 images), with strong cross-dataset generalisation to unseen UDIAT data — a critical marker of clinical deployability.</p>
+        <div class="p-metrics">
+          <span class="pm">Dice BUS-UCLM&nbsp;<strong>0.892</strong></span>
+          <span class="pm">Dice BUSI&nbsp;<strong>0.872</strong></span>
+          <span class="pm">Cross-dataset UDIAT&nbsp;<strong>0.805</strong></span>
+          <span class="pm">Training set&nbsp;<strong>1,133 images</strong></span>
+          <span class="pm">Backbone&nbsp;<strong>ResNet-50</strong></span>
+        </div>
+        <div class="p-divider"></div>
+        <a href="https://github.com/Mrsayem/Multidataset-breast-ultrasound-image-segmentation" target="_blank" class="tlink">GitHub Repository →</a>
       </div>
 
-      <!-- Paper 2 -->
-      <div class="paper-card wip fade-up" style="transition-delay:0.1s">
-        <span class="paper-status status-wip">Work in Progress · 2026</span>
-        <div class="paper-title">MVSegNet: Lightweight MobileNetV3-Based Fetal Brain Ventricle Segmentation with Joint Severity Classification</div>
-        <div class="paper-authors">Arafat Hossain Sayem</div>
-        <div class="paper-venue">Target: Medical Image Analysis / MICCAI</div>
-        <p class="paper-abstract">
-          A lightweight MobileNetV3-backboned segmentation network featuring multi-scale attention modules (MSAM) and adaptive boundary refinement blocks (ABRB). Designed for improved ventricle boundary delineation, small-lesion sensitivity, and fast low-resource clinical inference — jointly classifying ventriculomegaly severity alongside segmentation.
-        </p>
-        <div class="paper-metrics">
-          <div class="metric-chip">Backbone <span>MobileNetV3</span></div>
-          <div class="metric-chip">Task <span>Segmentation + Classification</span></div>
-          <div class="metric-chip">Target <span>Low-resource inference</span></div>
+      <div class="paper fi" style="transition-delay:.08s;margin-top:2px">
+        <div class="p-tags">
+          <span class="ptag">Work in Progress · 2026</span>
+          <span class="ptag v">Target: MICCAI / MedIA</span>
+        </div>
+        <div class="p-title">MVSegNet: Lightweight MobileNetV3-Based Fetal Brain Ventricle Segmentation with Joint Severity Classification</div>
+        <div class="p-authors">Arafat Hossain Sayem</div>
+        <div class="p-venue">Target: Medical Image Analysis / MICCAI</div>
+        <p class="p-abstract">A lightweight MobileNetV3-backboned segmentation network integrating multi-scale attention modules (MSAM) and adaptive boundary refinement blocks (ABRB). Targets improved ventricle boundary delineation, small-lesion sensitivity, and fast low-resource clinical inference — with a joint head for ventriculomegaly severity classification.</p>
+        <div class="p-metrics">
+          <span class="pm">Backbone&nbsp;<strong>MobileNetV3</strong></span>
+          <span class="pm">Task&nbsp;<strong>Seg + Classification</strong></span>
+          <span class="pm">Target&nbsp;<strong>Low-resource inference</strong></span>
+          <span class="pm">Dataset&nbsp;<strong>Fetal brain MRI (Zenodo)</strong></span>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
 
 <!-- EXPERIENCE -->
 <section id="experience">
-  <div class="section-inner">
-    <div class="section-label fade-up">Industry</div>
-    <h2 class="section-title fade-up">Work Experience</h2>
-    <p class="section-sub fade-up">Production-grade software engineering at scale — building APIs and systems used by millions of job seekers in Bangladesh.</p>
-
-    <div class="exp-timeline">
-      <div class="exp-item fade-up">
-        <div class="exp-dot"><div class="exp-dot-inner"></div></div>
-        <div class="exp-body">
-          <div class="exp-header">
-            <div class="exp-role">Software Engineer</div>
-            <div class="exp-date">Dec 2024 — Present</div>
-          </div>
-          <div class="exp-company">Bdjobs.com Ltd · Dhaka, Bangladesh</div>
-          <ul class="exp-points">
-            <li>Migrated core user profile functionalities from Classic ASP to ASP.NET Web APIs, modernizing key production services used by millions of users. <a href="https://resume.bdjobs.com" target="_blank" style="color:var(--teal);font-size:0.8rem;">→ bdjobs.com</a></li>
-            <li>Architected APIs for Edit Personal Details, Dashboard, Photo Upload, and Job Fair System using Domain-Driven Design and SOLID principles.</li>
-            <li>Built high-performance APIs using CQRS and event-driven architecture to improve scalability and throughput.</li>
-            <li>Integrated backend APIs with Angular 18 frontend, optimizing performance and user experience.</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="exp-tag">ASP.NET Core 8</span>
-            <span class="exp-tag">Angular 18</span>
-            <span class="exp-tag">CQRS</span>
-            <span class="exp-tag">DDD</span>
-            <span class="exp-tag">Clean Architecture</span>
-            <span class="exp-tag">Entity Framework</span>
-            <span class="exp-tag">REST APIs</span>
-          </div>
+  <div class="inner">
+    <div class="sh">
+      <div class="eyebrow fi">Industry</div>
+      <h2 class="sec-title fi" style="transition-delay:.06s">Work Experience</h2>
+      <p class="sec-sub fi" style="transition-delay:.1s">Production-scale software engineering at Bangladesh's largest job platform — systems used by millions.</p>
+    </div>
+    <div class="timeline">
+      <div class="tli fi">
+        <div class="tldot active"></div>
+        <div class="tl-h">
+          <div class="tl-role">Software Engineer</div>
+          <div class="tl-date">Dec 2024 — Present</div>
+        </div>
+        <div class="tl-co"><a href="https://www.bdjobs.com" target="_blank">Bdjobs.com Ltd</a> · Dhaka, Bangladesh</div>
+        <ul class="tl-pts">
+          <li>Migrated core user-profile functionalities from Classic ASP to ASP.NET Core 8 Web APIs, modernising production services used by millions of job seekers.</li>
+          <li>Architected APIs for Edit Personal Details, Dashboard, Photo Upload, and Job Fair System using Domain-Driven Design and SOLID principles.</li>
+          <li>Built high-throughput APIs applying CQRS and event-driven architecture to improve scalability.</li>
+          <li>Integrated backend services with Angular 18 frontend, optimising performance and user experience.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">ASP.NET Core 8</span><span class="tag">Angular 18</span>
+          <span class="tag">CQRS</span><span class="tag">DDD</span>
+          <span class="tag">Clean Architecture</span><span class="tag">Entity Framework Core</span>
+          <span class="tag">REST APIs</span><span class="tag">JWT Auth</span>
         </div>
       </div>
-
-      <div class="exp-item fade-up" style="transition-delay:0.1s">
-        <div class="exp-dot" style="border-color:var(--muted)"><div class="exp-dot-inner" style="background:var(--muted)"></div></div>
-        <div class="exp-body">
-          <div class="exp-header">
-            <div class="exp-role">Trainee Software Engineer</div>
-            <div class="exp-date">Aug 2024 — Nov 2024</div>
-          </div>
-          <div class="exp-company">Bdjobs.com Ltd · Dhaka, Bangladesh</div>
-          <ul class="exp-points">
-            <li>Implemented a core job repost API for the C2C platform, deployed live to production.</li>
-            <li>Gained hands-on experience with Angular 18, Git/GitHub, and modern software development workflows.</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="exp-tag">C2C Platform</span>
-            <span class="exp-tag">Angular 18</span>
-            <span class="exp-tag">Git/GitHub</span>
-          </div>
+      <div class="tli fi" style="transition-delay:.1s">
+        <div class="tldot"></div>
+        <div class="tl-h">
+          <div class="tl-role">Trainee Software Engineer</div>
+          <div class="tl-date">Aug 2024 — Nov 2024</div>
+        </div>
+        <div class="tl-co">Bdjobs.com Ltd · Dhaka, Bangladesh</div>
+        <ul class="tl-pts">
+          <li>Implemented a core job-repost API for the C2C platform, deployed live to production.</li>
+          <li>Gained hands-on experience with Angular 18, Git/GitHub, and modern development workflows.</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">C2C Platform</span><span class="tag">Angular 18</span><span class="tag">Git / GitHub</span>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="section-inner">
-    <div class="section-label fade-up">Technical Proficiencies</div>
-    <h2 class="section-title fade-up">Skills</h2>
-    <p class="section-sub fade-up">Bridging deep learning research and production software engineering.</p>
-
-    <div class="skills-grid">
-      <div class="skill-block fade-up">
-        <div class="skill-category"><span class="skill-icon">🧠</span>Deep Learning</div>
-        <div class="skill-items">
-          <span class="skill-pill">PyTorch</span>
-          <span class="skill-pill">CNN Architectures</span>
-          <span class="skill-pill">ResNet-50</span>
-          <span class="skill-pill">MobileNetV3</span>
-          <span class="skill-pill">U-Net</span>
-          <span class="skill-pill">CBAM</span>
-          <span class="skill-pill">ASPP</span>
-          <span class="skill-pill">Semantic Segmentation</span>
+  <div class="inner">
+    <div class="sh">
+      <div class="eyebrow fi">Technical Proficiencies</div>
+      <h2 class="sec-title fi" style="transition-delay:.06s">Skills</h2>
+      <p class="sec-sub fi" style="transition-delay:.1s">Bridging deep learning research and production software engineering.</p>
+    </div>
+    <div class="sk-grid fi" style="transition-delay:.12s">
+      <div class="skb">
+        <div class="sk-cat">◈ Deep Learning</div>
+        <div class="sk-pills">
+          <span class="sk-pill">PyTorch</span><span class="sk-pill">CNNs</span>
+          <span class="sk-pill">ResNet-50</span><span class="sk-pill">MobileNetV3</span>
+          <span class="sk-pill">U-Net</span><span class="sk-pill">CBAM</span>
+          <span class="sk-pill">ASPP</span><span class="sk-pill">Semantic Segmentation</span>
         </div>
       </div>
-      <div class="skill-block fade-up" style="transition-delay:0.05s">
-        <div class="skill-category"><span class="skill-icon">🔬</span>Medical Imaging</div>
-        <div class="skill-items">
-          <span class="skill-pill">Breast Ultrasound</span>
-          <span class="skill-pill">Fetal Brain MRI</span>
-          <span class="skill-pill">BUSI Dataset</span>
-          <span class="skill-pill">BUS-UCLM</span>
-          <span class="skill-pill">UDIAT</span>
-          <span class="skill-pill">Data Augmentation</span>
-          <span class="skill-pill">OpenCV</span>
-          <span class="skill-pill">Albumentations</span>
+      <div class="skb">
+        <div class="sk-cat">◈ Medical Imaging</div>
+        <div class="sk-pills">
+          <span class="sk-pill">Breast Ultrasound</span><span class="sk-pill">Fetal Brain MRI</span>
+          <span class="sk-pill">BUSI</span><span class="sk-pill">BUS-UCLM</span>
+          <span class="sk-pill">UDIAT</span><span class="sk-pill">Data Augmentation</span>
+          <span class="sk-pill">OpenCV</span><span class="sk-pill">Albumentations</span>
         </div>
       </div>
-      <div class="skill-block fade-up" style="transition-delay:0.1s">
-        <div class="skill-category"><span class="skill-icon">🐍</span>Research Tools</div>
-        <div class="skill-items">
-          <span class="skill-pill">Python</span>
-          <span class="skill-pill">NumPy</span>
-          <span class="skill-pill">Matplotlib</span>
-          <span class="skill-pill">Google Colab</span>
-          <span class="skill-pill">Jupyter</span>
-          <span class="skill-pill">LaTeX</span>
+      <div class="skb">
+        <div class="sk-cat">◈ Research Tools</div>
+        <div class="sk-pills">
+          <span class="sk-pill">Python</span><span class="sk-pill">NumPy</span>
+          <span class="sk-pill">Matplotlib</span><span class="sk-pill">Google Colab</span>
+          <span class="sk-pill">Jupyter</span><span class="sk-pill">LaTeX</span>
         </div>
       </div>
-      <div class="skill-block fade-up" style="transition-delay:0.15s">
-        <div class="skill-category"><span class="skill-icon">⚙️</span>Software Engineering</div>
-        <div class="skill-items">
-          <span class="skill-pill">ASP.NET Core 8</span>
-          <span class="skill-pill">Angular 18</span>
-          <span class="skill-pill">C#</span>
-          <span class="skill-pill">CQRS</span>
-          <span class="skill-pill">DDD</span>
-          <span class="skill-pill">Clean Architecture</span>
-          <span class="skill-pill">REST APIs</span>
-          <span class="skill-pill">JWT Auth</span>
+      <div class="skb">
+        <div class="sk-cat">◈ Software Engineering</div>
+        <div class="sk-pills">
+          <span class="sk-pill">ASP.NET Core 8</span><span class="sk-pill">Angular 18</span>
+          <span class="sk-pill">C#</span><span class="sk-pill">CQRS</span>
+          <span class="sk-pill">DDD</span><span class="sk-pill">Clean Architecture</span>
+          <span class="sk-pill">REST APIs</span>
         </div>
       </div>
-      <div class="skill-block fade-up" style="transition-delay:0.2s">
-        <div class="skill-category"><span class="skill-icon">💾</span>Languages & DB</div>
-        <div class="skill-items">
-          <span class="skill-pill">Python</span>
-          <span class="skill-pill">C++</span>
-          <span class="skill-pill">C#</span>
-          <span class="skill-pill">SQL</span>
-          <span class="skill-pill">JavaScript</span>
-          <span class="skill-pill">HTML/CSS</span>
-          <span class="skill-pill">MySQL</span>
+      <div class="skb">
+        <div class="sk-cat">◈ Languages &amp; DB</div>
+        <div class="sk-pills">
+          <span class="sk-pill">Python</span><span class="sk-pill">C++</span>
+          <span class="sk-pill">C#</span><span class="sk-pill">SQL</span>
+          <span class="sk-pill">JavaScript</span><span class="sk-pill">HTML / CSS</span>
+          <span class="sk-pill">MySQL</span>
         </div>
       </div>
-      <div class="skill-block fade-up" style="transition-delay:0.25s">
-        <div class="skill-category"><span class="skill-icon">📝</span>Soft Skills</div>
-        <div class="skill-items">
-          <span class="skill-pill">Research Writing</span>
-          <span class="skill-pill">Problem Solving</span>
-          <span class="skill-pill">Collaboration</span>
-          <span class="skill-pill">Communication</span>
-          <span class="skill-pill">Mentoring</span>
+      <div class="skb">
+        <div class="sk-cat">◈ Soft Skills</div>
+        <div class="sk-pills">
+          <span class="sk-pill">Research Writing</span><span class="sk-pill">Problem Solving</span>
+          <span class="sk-pill">Collaboration</span><span class="sk-pill">Communication</span>
+          <span class="sk-pill">Mentoring</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="divider"></div>
+<!-- COMPETITIVE -->
+<section id="competitive">
+  <div class="inner">
+    <div class="sh">
+      <div class="eyebrow fi">Competitive Programming</div>
+      <h2 class="sec-title fi" style="transition-delay:.06s">Problem Solving</h2>
+      <p class="sec-sub fi" style="transition-delay:.1s">Algorithmic rigour that directly informs research thinking — efficient, precise, principled.</p>
+    </div>
+    <div class="comp-row fi" style="transition-delay:.12s">
+      <div class="cc">
+        <div class="cc-num">ICPC</div>
+        <div class="cc-ttl">Regional 2022</div>
+        <p class="cc-desc">Represented Stamford University Bangladesh in the ICPC Online Regional Contest 2022</p>
+      </div>
+      <div class="cc">
+        <div class="cc-num">500+</div>
+        <div class="cc-ttl">Problems Solved</div>
+        <p class="cc-desc">Across multiple online judges including Codeforces, since 2020</p>
+        <a href="https://codeforces.com/profile/mrsayem" target="_blank" class="tlink" style="margin-top:1rem;display:inline-flex">CF Profile →</a>
+      </div>
+      <div class="cc">
+        <div class="cc-num">DSA</div>
+        <div class="cc-ttl">Expert</div>
+        <p class="cc-desc">Graphs, dynamic programming, segment trees, and classical algorithm design</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- EDUCATION -->
 <section id="education">
-  <div class="section-inner">
-    <div class="section-label fade-up">Academic Background</div>
-    <h2 class="section-title fade-up">Education</h2>
-
-    <div class="edu-card fade-up">
-      <div class="edu-header">
+  <div class="inner">
+    <div class="sh">
+      <div class="eyebrow fi">Academic Background</div>
+      <h2 class="sec-title fi" style="transition-delay:.06s">Education</h2>
+    </div>
+    <div class="edu-card fi" style="transition-delay:.1s">
+      <div class="edu-main">
         <div>
-          <div class="edu-degree">B.Sc. Computer Science & Engineering</div>
-          <div class="edu-uni">Stamford University Bangladesh · Dhaka · 2020–2025</div>
-          <div style="font-size:0.85rem;color:var(--muted);margin-top:0.3rem">Total Credits: 168</div>
+          <div class="edu-deg">B.Sc. Computer Science &amp; Engineering</div>
+          <div class="edu-uni">Stamford University Bangladesh · Dhaka, Bangladesh</div>
+          <div class="edu-period">2020 – 2025 &nbsp;·&nbsp; Total Credits: 168</div>
         </div>
-        <div class="edu-meta">
-          <div class="edu-gpa">3.54</div>
-          <div class="edu-gpa-label">CGPA / 4.00</div>
+        <div>
+          <div class="edu-gpa-n">3.54</div>
+          <div class="edu-gpa-s">CGPA / 4.00</div>
         </div>
       </div>
-      <div class="thesis-box">
-        <div class="thesis-label">🎓 Thesis</div>
-        <div class="thesis-title">Hybrid ResNet-50 Architecture for Multi-Dataset Breast Ultrasound Lesion Segmentation — targeting IEEE JBHI publication</div>
+      <div class="thesis-blk">
+        <div class="thesis-lbl">Thesis</div>
+        <div class="thesis-t">Hybrid ResNet-50 Architecture for Multi-Dataset Breast Ultrasound Lesion Segmentation — targeting IEEE Journal of Biomedical and Health Informatics (JBHI), 2026</div>
       </div>
     </div>
   </div>
 </section>
-
-<div class="divider"></div>
-
-<!-- COMPETITIVE PROGRAMMING -->
-<section id="competitive">
-  <div class="section-inner">
-    <div class="section-label fade-up">Competitive Programming</div>
-    <h2 class="section-title fade-up">Problem Solving</h2>
-    <p class="section-sub fade-up">Algorithmic thinking that powers my research — efficient, rigorous, data-driven.</p>
-
-    <div class="comp-grid">
-      <div class="comp-card fade-up">
-        <div class="comp-icon">🏆</div>
-        <div class="comp-num">ICPC</div>
-        <div style="font-size:1rem;color:var(--text);font-weight:700;margin-bottom:0.4rem">Regional 2022</div>
-        <div class="comp-desc">Represented Stamford University Bangladesh in the ICPC Online Regional Contest 2022</div>
-      </div>
-      <div class="comp-card fade-up" style="transition-delay:0.1s">
-        <div class="comp-icon">⚡</div>
-        <div class="comp-num">500+</div>
-        <div style="font-size:1rem;color:var(--text);font-weight:700;margin-bottom:0.4rem">Problems Solved</div>
-        <div class="comp-desc">Solved 500+ problems across multiple online judges including Codeforces since 2020</div>
-        <a href="https://codeforces.com/profile/mrsayem" target="_blank" class="paper-link" style="margin-top:0.5rem;display:inline-flex;">Codeforces Profile →</a>
-      </div>
-      <div class="comp-card fade-up" style="transition-delay:0.2s">
-        <div class="comp-icon">🔢</div>
-        <div class="comp-num">DSA</div>
-        <div style="font-size:1rem;color:var(--text);font-weight:700;margin-bottom:0.4rem">Expert Knowledge</div>
-        <div class="comp-desc">Deep expertise in data structures & algorithms — graphs, DP, trees, segment trees</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-inner">
-    <div class="contact-grid">
-      <div class="contact-left fade-up">
-        <div class="section-label">Let's Connect</div>
-        <h2>Interested in collaborating<br>or <em style="font-family:var(--serif);color:var(--teal)">offering a PhD spot?</em></h2>
-        <p>I'm actively seeking PhD positions and research collaborations in Biomedical AI, Medical Image Analysis, and Deep Learning. Feel free to reach out.</p>
-        <div class="contact-links">
-          <a href="mailto:sayem.cse72@gmail.com" class="contact-link">
-            <div class="contact-link-icon">✉</div>
-            <div class="contact-link-text">
-              <div class="contact-link-label">Email</div>
-              <div class="contact-link-value">sayem.cse72@gmail.com</div>
-            </div>
-            <div class="contact-link-arrow">→</div>
+  <div class="inner">
+    <div class="cg">
+      <div>
+        <div class="eyebrow fi">Get in Touch</div>
+        <h2 class="ch fi" style="transition-delay:.06s">Interested in collaborating<br>or <em>offering a PhD position?</em></h2>
+        <p class="cbody fi" style="transition-delay:.1s">
+          I am actively seeking PhD positions and research collaborations in Biomedical AI and Medical Image Analysis. I welcome correspondence from professors, research labs, and collaborators worldwide.
+        </p>
+        <div class="c-links fi" style="transition-delay:.14s">
+          <a href="mailto:sayem.cse72@gmail.com" class="clink">
+            <div class="cico">✉</div>
+            <div class="cinfo"><div class="clbl">Email</div><div class="cval">sayem.cse72@gmail.com</div></div>
+            <div class="carr">→</div>
           </a>
-          <a href="https://www.linkedin.com/in/arafat-hossain-sayem" target="_blank" class="contact-link">
-            <div class="contact-link-icon">in</div>
-            <div class="contact-link-text">
-              <div class="contact-link-label">LinkedIn</div>
-              <div class="contact-link-value">arafat-hossain-sayem</div>
-            </div>
-            <div class="contact-link-arrow">→</div>
+          <a href="https://www.linkedin.com/in/arafat-hossain-sayem" target="_blank" class="clink">
+            <div class="cico">in</div>
+            <div class="cinfo"><div class="clbl">LinkedIn</div><div class="cval">arafat-hossain-sayem</div></div>
+            <div class="carr">→</div>
           </a>
-          <a href="https://github.com/Mrsayem" target="_blank" class="contact-link">
-            <div class="contact-link-icon">⌥</div>
-            <div class="contact-link-text">
-              <div class="contact-link-label">GitHub</div>
-              <div class="contact-link-value">github.com/Mrsayem</div>
-            </div>
-            <div class="contact-link-arrow">→</div>
+          <a href="https://github.com/Mrsayem" target="_blank" class="clink">
+            <div class="cico">gh</div>
+            <div class="cinfo"><div class="clbl">GitHub</div><div class="cval">github.com/Mrsayem</div></div>
+            <div class="carr">→</div>
           </a>
-          <a href="https://mrsayem.github.io" target="_blank" class="contact-link">
-            <div class="contact-link-icon">🌐</div>
-            <div class="contact-link-text">
-              <div class="contact-link-label">Portfolio</div>
-              <div class="contact-link-value">mrsayem.github.io</div>
-            </div>
-            <div class="contact-link-arrow">→</div>
+          <a href="https://mrsayem.github.io" target="_blank" class="clink">
+            <div class="cico">↗</div>
+            <div class="cinfo"><div class="clbl">Portfolio</div><div class="cval">mrsayem.github.io</div></div>
+            <div class="carr">→</div>
           </a>
         </div>
       </div>
-      <div class="contact-right fade-up" style="transition-delay:0.15s">
-        <h3>Send a Message</h3>
+      <div class="cform fi" style="transition-delay:.18s">
+        <div class="cform-t">Send a Message</div>
         <div class="field">
           <label>Your Name</label>
           <input type="text" placeholder="Prof. Jane Smith"/>
@@ -1135,7 +934,7 @@
           <label>Message</label>
           <textarea placeholder="I came across your research on breast ultrasound segmentation..."></textarea>
         </div>
-        <button class="btn-primary" style="width:100%" onclick="handleContact()">Send Message ↗</button>
+        <button class="btn-fill" style="width:100%;margin-top:0.5rem" onclick="handleContact(this)">Send Message →</button>
       </div>
     </div>
   </div>
@@ -1143,65 +942,55 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-name">arafat@research:~$ █</div>
-  <div class="footer-copy">© 2025 Arafat Hossain Sayem · Dhaka, Bangladesh</div>
+  <div class="f-logo">Arafat Hossain Sayem</div>
+  <div class="f-copy">© 2025 · Dhaka, Bangladesh · ML Researcher</div>
 </footer>
 
 <script>
-  // ─── HAMBURGER ───
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
+  /* THEME */
+  const root = document.documentElement;
+  const lbl = document.getElementById('themeLabel');
+  const saved = localStorage.getItem('ph-theme') || 'dark';
+  root.setAttribute('data-theme', saved);
+  lbl.textContent = saved === 'dark' ? 'Dark' : 'Light';
+
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    const cur = root.getAttribute('data-theme');
+    const nxt = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', nxt);
+    lbl.textContent = nxt === 'dark' ? 'Dark' : 'Light';
+    localStorage.setItem('ph-theme', nxt);
   });
-  function closeMobile() {
-    mobileMenu.classList.remove('open');
-  }
 
-  // ─── SCROLL SPY ───
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
+  /* HAMBURGER */
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobMenu').classList.toggle('open');
+  });
+  function cm() { document.getElementById('mobMenu').classList.remove('open'); }
 
+  /* SCROLL SPY */
+  const secs = document.querySelectorAll('section[id]');
+  const nls = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(sec => {
-      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
-    });
-    navLinks.forEach(a => {
+    let cur = '';
+    secs.forEach(s => { if(window.scrollY >= s.offsetTop - 110) cur = s.id; });
+    nls.forEach(a => {
       a.classList.remove('active');
-      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+      if(a.getAttribute('href') === '#' + cur) a.classList.add('active');
     });
+  }, { passive: true });
 
-    // Navbar solid on scroll
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 60) {
-      navbar.style.background = 'rgba(6,11,23,0.97)';
-    } else {
-      navbar.style.background = 'rgba(6,11,23,0.85)';
-    }
-  });
+  /* FADE IN */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('show'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
 
-  // ─── FADE-UP ON SCROLL ───
-  const faders = document.querySelectorAll('.fade-up');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  faders.forEach(el => obs.observe(el));
-
-  // ─── CONTACT FORM ───
-  function handleContact() {
-    const btn = document.querySelector('#contact .btn-primary');
-    btn.textContent = '✓ Message Sent!';
-    btn.style.background = 'var(--teal)';
-    setTimeout(() => {
-      btn.textContent = 'Send Message ↗';
-      btn.style.background = '';
-    }, 3000);
+  /* CONTACT BTN */
+  function handleContact(btn) {
+    btn.textContent = '✓ Sent!';
+    btn.style.opacity = '0.7';
+    setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.opacity = ''; }, 3000);
   }
 </script>
 </body>
