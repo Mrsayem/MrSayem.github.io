@@ -301,3 +301,7 @@ div
 {
     color: blueviolet;
 }
+.submit-btn {
+  height: 40px;
+  padding: 0 1rem;
+}
